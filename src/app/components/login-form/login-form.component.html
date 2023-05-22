@@ -1,0 +1,61 @@
+<h1>Log - in</h1>
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name:</label>
+  
+      <input
+        id="name"
+        type="text"
+        class="form-control"
+        ngModel
+        name="name"
+        required
+        #name="ngModel"
+      />
+  
+      <div *ngIf="!name.valid && name.touched" class="error-message">
+        Please enter your name
+      </div>
+    </div>
+  
+    <div class="credentials" ngModelGroup="credentials">
+      <div class="form-group">
+        <label for="email">Email:</label>
+  
+        <input
+          id="email"
+          type="email"
+          class="form-control"
+          ngModel
+          name="email"
+          required
+          email
+          #email="ngModel"
+        />
+  
+        <div *ngIf="!email.valid && email.touched" class="error-message">
+          Please enter your email
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="password">Password:</label>
+  
+        <input
+          id="password"
+          type="password"
+          class="form-control"
+          ngModel
+          name="password"
+          required
+          #password="ngModel"
+        />
+  
+        <div *ngIf="!password.valid && password.touched" class="error-message">
+          Please enter a password
+        </div>
+      </div>
+    </div>
+  
+    <button type="submit" [disabled]="!form.valid">Submit</button>
+  </form>

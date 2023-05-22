@@ -1,0 +1,16 @@
+<div class="book-container" (click)="onClickBook()"  >
+    <h3>{{this.bookTitle}}</h3>
+    <p>{{this.bookImage}}</p>
+    <span>{{this.bookPrice}}</span>
+    <button (click)="addToCart()">add to cart</button>
+</div>
+
+<div #modal class="none">
+    <div class="modal-content">
+      <h2>{{this.bookTitle}}</h2>
+      <p>{{this.bookImage}}</p>
+      <span>{{this.bookPrice}}</span>
+      <button (click)="addToCart()">add to cart</button>
+      <button (click)="onClickBook()" class="modal-close">Close</button>
+    </div>
+  </div>

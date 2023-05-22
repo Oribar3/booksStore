@@ -1,0 +1,11 @@
+<div class="books-app-container">
+    <h3>our books:</h3>
+    <app-books-search class="books-container" (books_to_display)="onBooksSearch($event)"> </app-books-search>
+    <div
+      *ngFor="let book of booksToDisplay; let i = index"
+      class="book"
+    >
+    <app-book [book]= "book"></app-book>
+   </div>
+    
+  </div>
