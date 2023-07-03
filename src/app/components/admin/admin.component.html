@@ -1,0 +1,50 @@
+<h1>Admin - Page</h1>
+<div>
+  <table>
+    <tr>
+      <th>id</th>
+      <th>title</th>
+      <th>description</th>
+      <th>price</th>
+      <th>image</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <tr *ngFor="let book of books | async; let i = index" class="book">
+      <td>{{ book.id }}</td>
+      <td>{{ book.title }}</td>
+      <td>{{ book.description }}</td>
+      <td>{{ book.price }}</td>
+      <td>{{ book.image }}</td>
+      <td>
+        <button (click)="handleUpdateClickShow(book)">Update Book</button>
+      </td>
+      <td>
+        <button (click)="deleteBook(book.id)">Delete Book</button>
+      </td>
+    </tr>
+  </table>
+  <button (click)="showForm('add')">Add New Book</button>
+  <div *ngIf="show">
+    <form [formGroup]="Form">
+      <label>Title:</label>
+      <input type="text" formControlName="title">
+      <label>Description:</label>
+      <input type="text" formControlName="description">
+      <label>Price:</label>
+      <input type="number" formControlName="price">
+      <label>Image:</label>
+      <input type="text" formControlName="image">
+
+      <button *ngIf="buttonContent === 'add'" (click)="addNewBook()">Add Book</button>
+      <button *ngIf="buttonContent === 'update'" (click)="updateBook()">Update Book</button>
+
+      <div class="error">{{ error }}</div>
+    </form>
+  </div>
+  <h2>Set a discount percentage for logged users</h2>
+  <input #discount type="number">
+  <button (click)="setNewDiscount(discount.value)">Update</button>
+  <br>
+  <button class="redirect-account" (click)="redirectToPersonalAccount()">Update private information</button>
+</div>

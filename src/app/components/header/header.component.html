@@ -1,15 +1,11 @@
-<div class="header">
-    <div class="headline">
-        Book Store 
-    </div>
-    <div class="cart" (click)="onClickCart()">
-        cart
-        <div #cartContainer class="cartInfo none">
-   <app-cart></app-cart>    
-        </div>
 
- </div>
-    <div class="account">
-        account
+<header>
+    <div class="logo">
+      <img routerLink="/homepage" src="https://w7.pngwing.com/pngs/690/393/png-transparent-cartoon-reading-day-creative-posters-no-buttons-cartoon-books-reading-day-poster-lines-thumbnail.png" alt="Logo">
     </div>
-</div>
+    <div class="header-icons">
+      <a routerLink="/account" class="account-icon"><img src="https://w7.pngwing.com/pngs/811/233/png-transparent-computer-icons-user-login-desktop-others-blue-computer-prints-thumbnail.png" alt="Account"></a>
+      <a (click)="openCart()" class="cart-icon"><img src="https://w7.pngwing.com/pngs/833/426/png-transparent-shopping-cart-icon-shopping-cart-black-design-trade-thumbnail.png" alt="Cart"> 
+      </a>
+    </div>
+  </header>

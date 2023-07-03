@@ -1,0 +1,35 @@
+<h1>sign up</h1>
+<form [formGroup]="signupForm">
+  <fieldset>
+      <legend>sign up</legend>
+      <div class="form-field">
+        <label>Name:</label>
+        <input name="Name" formControlName="Name">
+        <div #errorName></div>
+    </div>
+      <div class="form-field">
+          <label>Email:</label>
+          <input name="Email" formControlName="Email">
+          <div #errorEmail></div>
+
+      </div>
+      <div class="form-field">
+          <label>Password:</label>
+          <input name="Password" formControlName="Password" 
+                 type="password">
+                 <div #errorPassword></div>
+
+      </div>
+      <div class="form-field">
+        <label>ConfirmPassword:</label>
+        <input name="ConfirmPassword" formControlName="ConfirmPassword" 
+               type="password">
+               <div #errorConfirmPassword></div>
+
+    </div>
+  </fieldset>
+  <div class="form-buttons">
+      <button class="button button-primary" 
+              (click)="signup()">sign up</button>
+  </div>
+</form>

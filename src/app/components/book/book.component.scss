@@ -1,41 +1,120 @@
-.book-container{
-    width: 10rem;
-    height: 20rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+.book-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
 
-.none{
-    display: none;
-}
+  h3 {
+    margin-bottom: 10px;
+  }
 
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
+  img {
     width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-    
-    .modal-content {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      
-      h2 {
-        margin-top: 0;
-      }
-      
-      .modal-close {
-        margin-top: 10px;
-      }
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .price {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  button {
+    padding: 8px 16px;
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.none-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+
+  &.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    max-width: 400px;
+    text-align: center;
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+    }
+
+    .modal-close {
+      background-color: transparent;
+      color: #888;
+      border: none;
+      cursor: pointer;
     }
   }
 
+  .description {
+    margin-bottom: 10px;
+    font-style: italic;
+  }
+  
+  @media (max-width: 600px) {
+    .modal-content {
+      max-width: 90%;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .modal-content {
+      padding: 10px;
+      
+      h2 {
+        font-size: 18px;
+      }
+      
+      img {
+        max-width: 200px;
+      }
+      
+      .price {
+        font-size: 16px;
+      }
+      
+      button {
+        font-size: 14px;
+        padding: 6px 12px;
+      }
+    }
+  }
+}

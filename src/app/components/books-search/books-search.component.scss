@@ -1,10 +1,22 @@
-
-    input{
-        border-radius: 5px;
-        padding: 0.5rem;
-        min-width: 53vw;
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  
+    label {
+      margin-right: 10px;
     }
-    label{
-        font-weight: 700;
-        padding: 1rem;
+  
+    input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+  
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      }
     }
+  }
+  

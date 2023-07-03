@@ -1,4 +1,3 @@
-import { Token } from "@angular/compiler";
 
 export interface User {
     name:string,

@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/book-store-client-side",
+            "outputPath": "dist/book-store-client-side/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -97,6 +97,60 @@
             ],
             "scripts": []
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/book-store-client-side/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "book-store-client-side:build:development",
+              "serverTarget": "book-store-client-side:server:development"
+            },
+            "production": {
+              "browserTarget": "book-store-client-side:build:production",
+              "serverTarget": "book-store-client-side:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "book-store-client-side:build:production",
+              "serverTarget": "book-store-client-side:server:production"
+            },
+            "development": {
+              "browserTarget": "book-store-client-side:build:development",
+              "serverTarget": "book-store-client-side:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

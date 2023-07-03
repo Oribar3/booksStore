@@ -1,0 +1,31 @@
+<div class="account-page">
+    <h2>Account-page</h2>
+    <button (click)="showUpdateInfo()">Update private info</button>
+    <!--<label for="Name">Name : {{ this.Name }}</label>-->
+    <div class="none">
+        <span>new name:</span>
+        <input type="text" #newName>
+        <span #errorName class="error"></span>
+
+    </div>
+    <!--<label for="Email">Email : {{ this.Email }}</label>-->
+    <div class="none">
+        <span>new email:</span>
+        <input type="text" #newEmail>
+        <span #errorEmail class="error"></span>
+        <button (click)="updateInfo()">save changes</button>
+    </div>
+    <div class="none">
+        <span>old password:</span>
+        <input type="text" #oldPassword>
+        <span>new password:</span>
+        <input type="text" #newPassword>
+        <span #errorPassword class="error"></span>
+        <button (click)="updatePassword()">save changes</button>
+    </div>
+    <div>
+
+    </div>
+    <button (click)="logout()">log out</button>
+
+</div>

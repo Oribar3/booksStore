@@ -1,42 +1,45 @@
 import { Injectable, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Book } from '../models/book';
-import { User } from '../models/user';
-import { Subject } from 'rxjs/internal/Subject';
-import { LoginService } from './login.service';
+
+
 @Injectable({
   providedIn: 'root'
 })
-export class BookService implements OnInit{
+export class BookService implements OnInit {
+  books!: Observable<Book[]>;
+  private basePath = 'https://localhost:7167/api/Books';
 
-  private _myUser: User|undefined
-  private _books: Book[] = []
-  private _booksSubject = new Subject <Book[]>()
-  booksData = this._booksSubject.asObservable()
-  private _cart:Book[]=[]
+  ngOnInit() {
 
-  ngOnInit(){
-  }
-  constructor() {
-    this._books.push({
-      title:'alice in the wonderland',
-      price: 40,
-      image: new Image (10,10 )
-    })
-    this._books.push ({
-      title:'ori in the wonderland',
-      price: 40,
-      image: new Image (10,10 )
-    })
-   }
-  get myUser() {
-    return { ...this._myUser }
   }
 
-  get books() {
-    return [...this._books]
+  constructor(private http: HttpClient) {
+    this.books=this.getBooks();
+  }
+  public getBooks() {
+    return this.http.get<Book[]>(this.basePath)
   }
 
-  addBookToCart(book: Book) {
-    this._cart.push (book)
-}
+  public getBooksByTitle(title: string): Observable<any> {
+    return this.http.get(`${this.basePath}/${title}`)
+  }
+
+  public addNewBook(Title: string, Description: string, Price: string, Image: string): Observable<any> {
+    const body = { Title: Title, Description: Description, Price: Price, Image: Image }
+    return this.http.post(this.basePath, body)
+  }
+  public updateBook(Title: string, Description: string, Price: string, Image: string, bookId: number): Observable<any> {
+    const body = { Title: Title, Description: Description, Price: Price , Image:Image}
+    return this.http.put(`${this.basePath}/${bookId}`, body)
+  }
+
+  public updateBookByPatch(bookId: number, updatedBook: any): Observable<any> {
+    return this.http.patch(`${this.basePath}/${bookId}`, updatedBook);
+  }
+
+  public deleteBook(bookId: number): Observable<any> {
+    return this.http.delete(`${this.basePath}/${bookId}`)
+  }
 }

@@ -1,61 +1,25 @@
 <h1>Log - in</h1>
-<form #form="ngForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="name">Name:</label>
-  
-      <input
-        id="name"
-        type="text"
-        class="form-control"
-        ngModel
-        name="name"
-        required
-        #name="ngModel"
-      />
-  
-      <div *ngIf="!name.valid && name.touched" class="error-message">
-        Please enter your name
+<form [formGroup]="form">
+  <fieldset>
+      <legend>Login</legend>
+      <div class="form-field">
+          <label>Email:</label>
+          <input name="Email" formControlName="Email">
       </div>
-    </div>
-  
-    <div class="credentials" ngModelGroup="credentials">
-      <div class="form-group">
-        <label for="email">Email:</label>
-  
-        <input
-          id="email"
-          type="email"
-          class="form-control"
-          ngModel
-          name="email"
-          required
-          email
-          #email="ngModel"
-        />
-  
-        <div *ngIf="!email.valid && email.touched" class="error-message">
-          Please enter your email
-        </div>
+      <div class="form-field">
+          <label>Password:</label>
+          <input name="Password" formControlName="Password" 
+                 type="password">
       </div>
-  
-      <div class="form-group">
-        <label for="password">Password:</label>
-  
-        <input
-          id="password"
-          type="password"
-          class="form-control"
-          ngModel
-          name="password"
-          required
-          #password="ngModel"
-        />
-  
-        <div *ngIf="!password.valid && password.touched" class="error-message">
-          Please enter a password
-        </div>
-      </div>
-    </div>
-  
-    <button type="submit" [disabled]="!form.valid">Submit</button>
-  </form>
+  </fieldset>
+  <div class="form-buttons">
+      <button class="button button-primary" 
+              (click)="login()">Login</button>
+  </div>
+</form>
+<br>
+<button routerLink="/signup">sign up</button>
+<br><br>
+<button routerLink="/admin-signup">sign up as manager</button>
+
+

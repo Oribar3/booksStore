@@ -1,26 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/services/login.service';
+
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss']
 })
-export class LoginFormComponent implements OnInit{
-   @ViewChild('form') form!: NgForm;
-   name!: string;
-   email!: string
-   password!: string;
-   constructor(private router: Router, private loginService: LoginService){}
+export class LoginFormComponent {
+  form: FormGroup;
 
-   ngOnInit(){
+  constructor(private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router) {
 
-   }
-  onSubmit(){
-    this.loginService.signin(this.name,this.email,this.password)
-    
+    this.form = this.fb.group({
+      Email: ['', Validators.required],
+      Password: ['', Validators.required]
+    });
+  }
+
+  login() {
+    const val = this.form.value;
+
+    if (val.Email && val.Password) {
+      this.authService.login(val.Email, val.Password)
+        .subscribe({
+          next:
+            (response) => {
+              this.authService.storeToken(response.toString());
+              this.router.navigate(['/account']);
+            },
+          error: (err) => {
+            console.log(err)
+          }
+        })
+    }
   }
 
 }

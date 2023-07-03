@@ -1,4 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -6,8 +8,13 @@ import { Component, ViewChild } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  onClickCart(){
+  account!: "Log-in" | "Account";
+  
+  constructor(public router: Router, private cartService:CartService) { this.account = "Log-in" }
+  
+  openCart(){
+    this.cartService.cartClicked.next(true);
 
   }
-  
+
 }

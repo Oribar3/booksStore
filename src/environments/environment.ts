@@ -4,10 +4,7 @@
 
 export const environment = {
     production: false,
-    apiUrl:'http://localhost:4200/',
-    DB: 'https://chat-room-angular-ex.firebaseio.com',
-    FIREBASE_SIGNUP: 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDGeUTVdUGk48GDdS3wfSnOfL8pVciyhag',
-    FIREBASE_SIGNIN: 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDGeUTVdUGk48GDdS3wfSnOfL8pVciyhag'
+    
   };
   
   /*
