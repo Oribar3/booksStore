@@ -1,12 +1,17 @@
 <div class="cart">
     <h2>Shopping Cart</h2>
     <ul class="cart-items" *ngFor="let book of cartData" >
-      {{book.title}}{{book.price}}
-      <button (click)="removeBookFromCart(book)">Delete</button>
+      {{book.title}}  {{book.price}}
+      <button (click)="removeBookFromCart(book)">x</button>
     </ul>
     <div class="cart-total">
       <h3>Total:</h3>
-      <span class="total-amount">{{cartValue}}$</span>
+      <span id="cartVal" class="total-amount">{{beforeDiscountCartValue}}$</span>
+      <div *ngIf="isUser">
+        <h3>discount: -{{discount}}$</h3>
+        <h3 >New Total:</h3>
+        <span class="total-amount">{{cartValue}}$</span>
+      </div>
     </div>
     <button class="checkout-button">Checkout</button>
   </div>

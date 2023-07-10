@@ -10,10 +10,10 @@ import { BookService } from 'src/app/services/book.service';
 export class BooksComponent implements OnInit {
   books!: Book[];
   currentPage: number = 1;
-  itemsPerPage: number = 10; // Number of items per page
+  itemsPerPage: number = 5;
   totalPages: number = 0;
-  booksToDisplay!: Book[]; // Original array of books
-  paginatedBooksToDisplay!: Book[]; // Array of books for the current page
+  booksToDisplay!: Book[];
+  paginatedBooksToDisplay!: Book[]; 
 
   constructor(private bookService: BookService) {}
 
@@ -46,7 +46,6 @@ export class BooksComponent implements OnInit {
     this.updatePaginatedBooks();
   }
 
-  // Function to update the paginated array based on the current page
   updatePaginatedBooks() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     this.paginatedBooksToDisplay = this.booksToDisplay.slice(
@@ -55,7 +54,6 @@ export class BooksComponent implements OnInit {
     );
   }
 
-  // Function to navigate to the previous page
   previousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -63,7 +61,6 @@ export class BooksComponent implements OnInit {
     }
   }
 
-  // Function to navigate to the next page
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;

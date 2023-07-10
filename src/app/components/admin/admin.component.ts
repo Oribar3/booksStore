@@ -51,8 +51,9 @@ export class AdminComponent implements OnInit {
     if (discount) {
       let val: number = parseInt(discount);
       this.CartService.setDiscount(val).subscribe({
-        next: (res => { this.getCurrentDiscount() }),
-        error: (err => { console.log(err) })
+        next: (res => { alert ('your discount for register members has just updated!');    this.router.navigate(['/']);
+        ;this.getCurrentDiscount() }),
+        error: (err => { console.log(err) ,this.error=err})
       })
     }
   }
@@ -72,14 +73,13 @@ export class AdminComponent implements OnInit {
     var price = val.price!==""?val.price:this.bookToUpdate?.price;
  if(this.bookToUpdate!==undefined)
     this.BookService.updateBook(title,description,price,image,this.bookToUpdate.id).subscribe({
-      next: (res) => { console.log(res)},
-      error: (err) => {console.log(err)},
-    }
-    )
+      next: (res) => { console.log(res); alert('your book has just updated!');},
+      error: (err) => {console.log(err)}
+  })
   }
   deleteBook(bookId: number) {
     this.BookService.deleteBook(bookId).subscribe({
-      next: (res) => { console.log(res) },
+      next: (res) => { console.log(res); alert('a new book removed succesfully');this.router.navigate(['/']) },
       error: (err) => { console.log(err), this.error = err.toString() },
     }
     )
@@ -92,7 +92,9 @@ export class AdminComponent implements OnInit {
         .subscribe(
           {
             next: (res) => {
-              console.log(res)
+              console.log(res);
+              alert('a new book added succesfully')
+              this.router.navigate(['/']);
             }, error:(err)=>{
               this.error=err;
               console.log(err)

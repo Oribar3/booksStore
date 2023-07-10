@@ -24,6 +24,7 @@
   
     .cart-total {
       display: flex;
+      flex-direction: column;
       justify-content: space-between;
       margin-top: 20px;
       font-weight: bold;
@@ -31,6 +32,18 @@
       .total-amount {
         color: #008000;
       }
+    }
+    button{
+      border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    cursor: pointer;
     }
   
     .checkout-button {
@@ -43,4 +56,6 @@
       border: none;
       cursor: pointer;
     }
+
+    
   }

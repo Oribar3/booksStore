@@ -13,8 +13,7 @@ export class HeaderComponent {
   constructor(public router: Router, private cartService:CartService) { this.account = "Log-in" }
   
   openCart(){
-    this.cartService.cartClicked.next(true);
-
+    this.cartService._cartClicked.next(true);
   }
 
 }

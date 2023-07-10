@@ -12,7 +12,9 @@ export class AccountComponent {
   @ViewChild('newPassword') newPassword!: ElementRef;
   @ViewChild('newName') newName!: ElementRef;
   @ViewChild('newEmail') newEmail!: ElementRef;
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {
+    console.log(localStorage.getItem('token'));
+   }
 
 
 

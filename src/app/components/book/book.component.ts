@@ -25,20 +25,19 @@ export class BookComponent implements OnInit {
     modal.classList.toggle('show');
   }
   
-
   addBookToCart(){
     this.cartService.addNewBook(this.book.id).subscribe({
       next: (res) => { res==true ?? this.cartService.cartData?this.cartService.cartData.push(this.book):this.cartService.cartData=[this.book];
         ; },
       error: (err) => {err.status===401?this.addBookToCartAnonymus():console.log(err)},
+      complete: ()=>{this.cartService.updateCartValue()}
     })
   }
 
   addBookToCartAnonymus(){
     this.cartService.cartData?this.cartService.cartData.push(this.book):this.cartService.cartData=[this.book];
     console.log(this.cartService.cartData)
+    this.cartService.updateCartValue()
+
   }
-
-
-
 }

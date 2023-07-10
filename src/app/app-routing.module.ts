@@ -8,6 +8,8 @@ import { HomepageComponent } from './components/homepage/homepage.component';
 import { SignupFormComponent } from './components/signup-form/signup-form.component';
 import { CartComponent } from './components/cart/cart.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { AdminGuard } from './guards/admin.guard';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -16,11 +18,11 @@ const routes: Routes = [
   { path: 'login', component: LoginFormComponent },
   { path: 'signup', component: SignupFormComponent },
   { path: 'admin-signup', component: SignupFormComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin', component: AdminComponent , canActivate: [AdminGuard]},
   { path: 'account', redirectTo: 'account', pathMatch: 'full' },
   { path: 'cart', component: CartComponent},
   { path: '', redirectTo: 'homepage', pathMatch: 'full' },
-  // { path: '**', component:HomepageComponent }
+ { path: '**', component:NotFoundComponent }
 ];
 
 @NgModule({

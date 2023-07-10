@@ -23,7 +23,7 @@ export class BookService implements OnInit {
   }
 
   public getBooksByTitle(title: string): Observable<any> {
-    return this.http.get(`${this.basePath}/${title}`)
+    return this.http.get(`${this.basePath}/title/${title}`)
   }
 
   public addNewBook(Title: string, Description: string, Price: string, Image: string): Observable<any> {

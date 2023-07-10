@@ -12,7 +12,9 @@ export class HomepageComponent{
   isCartShown:boolean=false;
   
   constructor(private cartService:CartService){
-    this.cartService.cartClicked.subscribe({next:(res)=>this.isCartShown=res})
+    this.cartService._cartClicked.subscribe({
+      next:(res)=>{this.isCartShown=res;}
+    })
   }
 
 }

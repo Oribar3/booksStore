@@ -1,6 +1,6 @@
-import { HttpResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild, importProvidersFrom } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, Subscriber } from 'rxjs';
+import { ConditionalExpr } from '@angular/compiler';
+import { Component } from '@angular/core';
+import { BehaviorSubject, Subscription, SubscriptionLike, map, tap } from 'rxjs';
 import { Book } from 'src/app/models/book';
 import { CartService } from 'src/app/services/cart.service';
 
@@ -13,55 +13,70 @@ import { CartService } from 'src/app/services/cart.service';
 
 export class CartComponent {
   cartData!: Book[];
-  isUser: boolean=false;
+  transformdCartData!: Book[];
+  isUser: boolean = false;
+  cartValue: number = 0;
+  cartValSubsciption!:Subscription;
   discount:number=0;
-  cartValue!:number;
+  beforeDiscountCartValue:number=0;
 
-
-  constructor(private cartService: CartService) { 
-    this.discount=cartService.discount;
-    this.cartData=this.cartService.cartData;
-    this.refreshCartValue();
-
+  constructor(private cartService: CartService) {
+    this.getAllCart();
+    this.cartService.beforeDiscountCartValue.asObservable().subscribe({
+      next: (res)=> this.beforeDiscountCartValue=res
+    })
+    this.cartService.discount.asObservable().subscribe({
+      next: (res)=> this.discount=res/100*this.beforeDiscountCartValue
+    })
+    this.cartValSubsciption=this.cartService._cartValueSub.asObservable().subscribe({
+      next: (newVal)=>{this.cartValue=newVal},
+      error: (err)=>{console.log(err)},
+    })
+    
   }
 
   ngOnInit(): void {
-    this.refreshCartValue();
- 
+    this.isUser=localStorage.getItem('token')!==null?true:false;
   }
 
-
-  refreshCartValue(){
-    if (this.cartService.cartData) {
-      if (this.cartService.cartValue==undefined) 
-         this.cartService.cartValue=0;
-      for (let book of this.cartService.cartData) {
-        this.cartService.cartValue += book.price;
+  refreshCartData() {
+    for (let item of this.cartService.cartItems) {
+      for (let i = 0; i < item.amount; i++) {
+        this.cartService.getBookById(item.bookId).subscribe({
+          next: (res) => { this.cartService.cartData.push(res);console.log(res)},
+          error: (err)=>{ console.log(err)},
+          complete:()=>this.cartService.updateCartValue()
+        })
       }
     }
-    this.decrement();
+    this.cartData=this.cartService.cartData;
   }
+
+
+
+
+
   getAllCart() {
     this.cartService.getBooksInCart().subscribe({
-      next: (res) => { this.cartData=res;console.log(this.cartData)},
-      error: (err) => {err.status==401?this.cartData=this.cartService.cartData:console.log(err)},
+      next: (res) => { this.cartService.cartItems = res; },
+      error: (err) => { err.status == 401 ? this.cartData = this.cartService.cartData : console.log(err) },
+      complete: ()=>this.refreshCartData()
     })
   }
 
-  decrement ():void{
-    this.isUser =  localStorage.getItem('token') !== null;
-    if(this.isUser && this.discount!==0)
-       this.cartService.cartValue = this.cartService.cartValue - (this.cartService.cartValue * (this.discount/100))
-  }
 
-  removeBookFromCart(book:Book){
+
+  removeBookFromCart(book: Book) {
     this.cartService.deleteBook(book.id).subscribe({
-      next: (res) => {res==true??  this.cartService.cartData?this.cartService.cartData.splice(this.cartService.cartData.findIndex(a=>a==book),1):this.cartService.cartData=[book]; },
-      error: (err) => {err.status===401?this.removeBookFromCartAnonymus(book):console.log(err)},
+      next: (res) => { res == true ?? this.cartService.cartData ? this.cartService.cartData.splice(this.cartService.cartData.findIndex(a => a == book), 1) : this.cartService.cartData = [book];},
+      error: (err) => { err.status === 401 ? this.removeBookFromCartAnonymus(book) : console.log(err) },
+      complete: ()=> this.cartService.updateCartValue()
+      
     })
   }
 
-  removeBookFromCartAnonymus(book:Book){
-    this.cartService.cartData?this.cartService.cartData.splice(this.cartService.cartData.findIndex(a=>a==book),1):this.cartService.cartData=[book];
+  removeBookFromCartAnonymus(book: Book) {
+    this.cartService.cartData ? this.cartService.cartData.splice(this.cartService.cartData.findIndex(a => a == book), 1) : this.cartService.cartData = [book];
+    this.cartService.updateCartValue()
   }
 }

@@ -55,6 +55,7 @@ export class AuthService {
     return this.http.patch(`${this.basePath}/myAccount/password`, body)
   }
 
-
-
+  isAdmin(){
+    return this.http.get<boolean>(`${this.basePath}/is-admin`)
+  }
 }

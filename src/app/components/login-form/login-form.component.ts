@@ -10,7 +10,8 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginFormComponent {
   form: FormGroup;
-
+  error:string="";
+  
   constructor(private fb: FormBuilder,
     private authService: AuthService,
     private router: Router) {
@@ -34,6 +35,7 @@ export class LoginFormComponent {
             },
           error: (err) => {
             console.log(err)
+            this.error="the fileds are not correct"
           }
         })
     }
