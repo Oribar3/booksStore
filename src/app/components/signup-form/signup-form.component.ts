@@ -10,19 +10,20 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class SignupFormComponent {
   signupForm: FormGroup;
+  submitted:boolean = false;
+
   constructor(private fb: FormBuilder,
     private authService: AuthService,
     private router: Router) {
-
+      this.submitted=false;
     this.signupForm = this.fb.group({
       Name: ['', Validators.required],
       Email: ['', Validators.required],
       Password: ['', Validators.required],
       ConfirmPassword: ['', Validators.required],
-
-
     });
   }
+
   signup() {
     const currentRoute = this.router.url;
 
@@ -35,10 +36,20 @@ export class SignupFormComponent {
       if (val.Name && val.Email && val.Password && val.ConfirmPassword) {
         this.authService.signup(val.Name, val.Email, val.Password, val.ConfirmPassword).subscribe({
           next: (res) => { console.log(res), this.router.navigate(['/login']) },
-          error: (err) => { console.log(err) }
+          error: (err) => { console.log(err), alert("your sign up had failed, please try again") },
         })
       }
     }
+    this.submitted=true
+  }
+  getErrorMessage(controlName: string): string {
+    const control = this.signupForm.get(controlName);
+  
+    if (control?.hasError('required')&&this.submitted==true) {
+      return 'This field is required.';
+    }
+  
+    return '';
   }
 
   adminSignup() {
@@ -47,7 +58,8 @@ export class SignupFormComponent {
     if (val.Name && val.Email && val.Password && val.ConfirmPassword) {
       this.authService.signupAdmin(val.Name, val.Email, val.Password, val.ConfirmPassword).subscribe({
         next: (res) => { console.log(res), this.router.navigate(['/login']) },
-        error: (err) => { console.log(err) }
+        error: (err) => { console.log(err), alert("your sign up had failed, please try again") },
+
       })
     }
   }

@@ -35,10 +35,12 @@ export class LoginFormComponent {
             },
           error: (err) => {
             console.log(err)
-            this.error="the fileds are not correct"
+            this.error="one of the fileds is not correct"
           }
         })
     }
+    else
+    this.error="fill all the fileds"
   }
 
 }

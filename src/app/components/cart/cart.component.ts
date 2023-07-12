@@ -1,10 +1,9 @@
 import { ConditionalExpr } from '@angular/compiler';
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { BehaviorSubject, Subscription, SubscriptionLike, map, tap } from 'rxjs';
 import { Book } from 'src/app/models/book';
 import { CartService } from 'src/app/services/cart.service';
-
-
+import { EventEmitter} from '@angular/core';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -19,6 +18,8 @@ export class CartComponent {
   cartValSubsciption!:Subscription;
   discount:number=0;
   beforeDiscountCartValue:number=0;
+  @Output() closeTheCart = new EventEmitter<boolean>();
+
 
   constructor(private cartService: CartService) {
     this.getAllCart();
@@ -39,6 +40,10 @@ export class CartComponent {
     this.isUser=localStorage.getItem('token')!==null?true:false;
   }
 
+  closeCart(){
+      this.closeTheCart.emit(false);
+  }
+
   refreshCartData() {
     for (let item of this.cartService.cartItems) {
       for (let i = 0; i < item.amount; i++) {
@@ -51,7 +56,6 @@ export class CartComponent {
     }
     this.cartData=this.cartService.cartData;
   }
-
 
 
 

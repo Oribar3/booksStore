@@ -1,5 +1,6 @@
   <router-outlet></router-outlet>
-  <app-cart *ngIf="isCartShown"></app-cart>
+  <app-cart *ngIf="isCartShown.getValue()" (closeTheCart)="closeCart($event)"
+  ></app-cart>
   <main>
         <app-books></app-books>
   </main>

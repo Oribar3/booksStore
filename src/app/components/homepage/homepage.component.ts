@@ -9,12 +9,16 @@ import { trigger, transition, style, animate } from '@angular/animations';
   styleUrls: ['./homepage.component.scss'],
 })
 export class HomepageComponent{
-  isCartShown:boolean=false;
+  isCartShown:BehaviorSubject<boolean>=new BehaviorSubject(false);
   
   constructor(private cartService:CartService){
     this.cartService._cartClicked.subscribe({
-      next:(res)=>{this.isCartShown=res;}
+      next:(res)=>{this.isCartShown.next(res);}
     })
+  }
+
+  closeCart(isOpen: boolean) {
+    this.isCartShown.next(isOpen)
   }
 
 }
