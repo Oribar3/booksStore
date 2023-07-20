@@ -16,10 +16,11 @@ export class LoginFormComponent {
     private authService: AuthService,
     private router: Router) {
 
-    this.form = this.fb.group({
-      Email: ['', Validators.required],
-      Password: ['', Validators.required]
-    });
+      this.form = this.fb.group({
+        Email: ['', [Validators.required, Validators.email]],
+        Password: ['', [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]+$')]]
+      });
+      
   }
 
   login() {

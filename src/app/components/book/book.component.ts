@@ -2,7 +2,7 @@ import { Component, ElementRef, Injectable, Input, OnChanges, OnInit, ViewChild 
 import { Router } from '@angular/router';
 import { Book } from 'src/app/models/book';
 import { CartService } from 'src/app/services/cart.service';
-
+import { CartItem } from 'src/app/models/cartItem';
 @Component({
   selector: 'app-book',
   templateUrl: './book.component.html',
@@ -28,16 +28,15 @@ export class BookComponent implements OnInit {
   addBookToCart(){
     this.cartService.addNewBook(this.book.id).subscribe({
       next: (res) => { res==true ?? this.cartService.cartData?this.cartService.cartData.push(this.book):this.cartService.cartData=[this.book];
-        ; },
-      error: (err) => {err.status===401?this.addBookToCartAnonymus():console.log(err)},
-      complete: ()=>{this.cartService.updateCartValue()}
+        ; console.log(localStorage.getItem('token'))},
+      error: (err) => {err.status===401?this.addBookToCartAnonymus():console.log(err);},
+      complete: ()=>{this.cartService.getAllCart();}
     })
+    
   }
 
   addBookToCartAnonymus(){
-    this.cartService.cartData?this.cartService.cartData.push(this.book):this.cartService.cartData=[this.book];
-    console.log(this.cartService.cartData)
-    this.cartService.updateCartValue()
-
+    this.cartService.cartData?this.cartService.cartData.push(this.book):this.cartService.cartData=[this.book]; console.log(this.cartService.cartData);
+    this.cartService.getAllCart()
   }
 }

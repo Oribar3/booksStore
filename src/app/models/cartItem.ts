@@ -1,7 +1,9 @@
+import { Book } from "./book";
+import { User } from "./user";
 
 export interface CartItem {
 id:number,
-appUserId:string,
-bookId:number,
+appUser:User|null,
+book:Book,
 amount:number
 }

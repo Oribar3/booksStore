@@ -27,10 +27,6 @@ export class AccountComponent {
     });
   }
 
-  logout(){
-    localStorage.removeItem('token');
-    this.router.navigate(["/login"])
-  }
   updateInfo() {
     let newName = this.newName.nativeElement.value;
     console.log(newName.value);

@@ -44,3 +44,10 @@ form{
     justify-content: center;
     align-items: center;
 }
+.form-field{
+    display: flex;
+    margin: 0.5rem;
+    div{
+        color: red;
+    }
+}

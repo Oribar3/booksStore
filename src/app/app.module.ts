@@ -19,10 +19,8 @@ import { BookService } from './services/book.service';
 import { CartService } from './services/cart.service';
 import { AccountComponent } from './components/account/account.component';
 import { SignupFormComponent } from './components/signup-form/signup-form.component';
-import { StoreModule } from '@ngrx/store';
 import { AdminComponent } from './components/admin/admin.component';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 @NgModule({
   declarations: [

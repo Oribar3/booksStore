@@ -11,14 +11,15 @@ import { CartItem } from '../models/cartItem';
 export class CartService{
   cartData: Book[] =[];
   cartItems:CartItem[]=[];
+  cartItemsSub:BehaviorSubject<CartItem[]>= new BehaviorSubject<CartItem[]>([]);
+
   discount:BehaviorSubject<number> = new BehaviorSubject<number>(0);
   cartValue!: number;
   _cartValueSub:BehaviorSubject<number> = new BehaviorSubject<number>(0);
   beforeDiscountCartValue:BehaviorSubject<number> = new BehaviorSubject<number>(0);
-
   _cartClicked:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-
+  
   private basePath = 'https://localhost:7167/api/Cart';
   isUser: boolean=false;
 
@@ -50,9 +51,34 @@ export class CartService{
       this.cartValue += book.price;
     }
     this.decrement()
-
-
   }
+  refreshCartData() {
+    this.cartData = [];
+    if (this.cartItems != null) {
+      for (let item of this.cartItems) {
+        for (let i = 0; i < item.amount; i++) {
+          this.cartData.push(item.book);
+        }
+      }
+    }
+const f= {
+  a:1
+}
+const g={
+  ...f,
+  a:1
+}
+    this.updateCartValue()
+    this.cartData = this.cartData;
+  }
+  getAllCart() {
+    this.getBooksInCart().subscribe({
+      next: (res) => { this.cartItems = res; this.cartItemsSub.next(res)},
+      error: (err) => { err.status == 401 ? this.UpdateCartItemsFromCartData() : console.log(err);},
+      complete: ()=>{this.refreshCartData()}
+    })
+  }
+
   decrement(): void {
     this.getDiscount().subscribe({
       next:(res)=>{this.discount.next(res)},
@@ -64,7 +90,6 @@ export class CartService{
       this.cartValue = this.cartValue - (this.cartValue * (this.discount.getValue() / 100))
     }
     this._cartValueSub.next(this.cartValue);
-
   }
 
   public addNewBook( bookId:number){
@@ -72,6 +97,28 @@ export class CartService{
     return this.http.post(`${this.basePath}/${bookId}`,{})
   }
 
+public UpdateCartItemsFromCartData()
+{
+    this.cartItems = [];
+  
+    for (const book of this.cartData) {
+      let cartItem = this.cartItems.find((item) => item.book === book);
+  
+      if (cartItem) {
+        cartItem.amount++;
+      } else {
+        cartItem = {
+          id: 0,
+          appUser: null,
+          book: book,
+          amount: 1,
+        };
+        this.cartItems.push(cartItem);
+      }
+    }  
+    this.cartItemsSub.next(this.cartItems)
+    this.refreshCartData();
+}
   public deleteBook ( bookId:number){
     this.cartClicked();
     return this.http.delete(`${this.basePath}/${bookId}`);
@@ -83,6 +130,10 @@ export class CartService{
 
   public getDiscount (){
     return this.http.get<number>('https://localhost:7167/api/admin/get-discount')
+  }
+
+  deleteAllCart(){
+    return this.http.delete<boolean>(`${this.basePath}`)
   }
 
 }
