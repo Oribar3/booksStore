@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { async } from '@angular/core/testing';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Book } from 'src/app/models/book';
 import { BookService } from 'src/app/services/book.service';
 import { CartService } from 'src/app/services/cart.service';
-
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -14,72 +12,53 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class AdminComponent implements OnInit {
   Form: FormGroup;
-  books!: Observable<Book[]>;
+  books: Observable<Book[]> = new Observable<Book[]>;
   show: boolean = false;
   buttonContent: string = "";
   error: string = "";
-  bookToUpdate:Book|undefined;
+  bookToUpdate: Book | undefined;
+  isEditing: boolean = false;
+  allBooks!:Book[];
 
-  constructor(private BookService: BookService, private fb: FormBuilder, private CartService: CartService,private router: Router) {
+
+  constructor(private BookService: BookService, private fb: FormBuilder, private CartService: CartService, private router: Router) {
     this.books = BookService.books;
+    this.books.subscribe({next: (res)=>{this.allBooks=res}})
     this.Form = this.fb.group({
       title: [''],
       description: [''],
       price: [''],
       image: [''],
     });
-
   }
-  ngOnInit(): void {
 
+  ngOnInit() {      
+
+   
   }
-  redirectToPersonalAccount(){
+
+  redirectToPersonalAccount() {
     this.router.navigate(['/account']);
 
   }
-  showForm(action: "add" | "update") {
-    this.buttonContent = action
+  showForm() {
     this.show = true;
-    this.error="";
-  }
-  handleUpdateClickShow(book:Book){
-    this.bookToUpdate=book;
-    this.showForm('update');
+    this.error = "";
+
   }
 
-  setNewDiscount(discount: string) {
-    if (discount) {
-      let val: number = parseInt(discount);
-      this.CartService.setDiscount(val).subscribe({
-        next: (res => { alert ('your discount for register members has just updated!');    this.router.navigate(['/']);
-        ;this.getCurrentDiscount() }),
-        error: (err => { console.log(err) ,this.error=err})
-      })
-    }
+  switchToEditMode() {
+    this.isEditing == true ? this.isEditing = false : this.isEditing = true;
   }
 
-  getCurrentDiscount() {
-    this.CartService.getDiscount().subscribe({
-      next: (res => { this.CartService.updateDiscount(res) }),
-      error: (err => { console.log(err) })
-    })
-  }
-  updateBook() {
-    console.log(this.bookToUpdate)
-    const val = this.Form.value;
-    var title = val.title!==""?val.title:this.bookToUpdate?.title;
-    var description = val.description!==""?val.description:this.bookToUpdate?.description;
-    var image = val.image!==""?val.image:this.bookToUpdate?.image;
-    var price = val.price!==""?val.price:this.bookToUpdate?.price;
- if(this.bookToUpdate!==undefined)
-    this.BookService.updateBook(title,description,price,image,this.bookToUpdate.id).subscribe({
-      next: (res) => { console.log(res); alert('your book has just updated!');},
-      error: (err) => {console.log(err)}
-  })
+
+
+  updateTable() {
+    location.reload();
   }
   deleteBook(bookId: number) {
     this.BookService.deleteBook(bookId).subscribe({
-      next: (res) => { console.log(res); alert('a new book removed succesfully');this.router.navigate(['/']) },
+      next: (res) => { console.log(res); alert('a new book removed succesfully'); this.updateTable() },
       error: (err) => { console.log(err), this.error = err.toString() },
     }
     )
@@ -93,17 +72,17 @@ export class AdminComponent implements OnInit {
           {
             next: (res) => {
               console.log(res);
-              alert('a new book added succesfully')
-              this.router.navigate(['/']);
-            }, error:(err)=>{
-              this.error=err;
+              alert('a new book added succesfully');
+              this.updateTable();
+            }, error: (err) => {
+              this.error = err;
               console.log(err)
             }
 
           })
     }
     else
-    this.error= "enter all the required details"
+      this.error = "enter all the required details"
   }
 }
 

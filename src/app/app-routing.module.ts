@@ -11,6 +11,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { AdminGuard } from './guards/admin.guard';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { SignoutComponent } from './components/signout/signout.component';
+import { DiscountComponent } from './components/discount/discount.component';
 
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'signup', component: SignupFormComponent },
   { path: 'admin-signup', component: SignupFormComponent },
   { path: 'signout', component: SignoutComponent },
+  { path: 'discount', component: DiscountComponent },
   { path: 'admin', component: AdminComponent , canActivate: [AdminGuard]},
   { path: 'account', redirectTo: 'account', pathMatch: 'full' },
   { path: 'cart', component: CartComponent},

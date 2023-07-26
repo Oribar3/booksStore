@@ -22,6 +22,9 @@ import { SignupFormComponent } from './components/signup-form/signup-form.compon
 import { AdminComponent } from './components/admin/admin.component';
 import { CommonModule } from '@angular/common';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { SignoutComponent } from './components/signout/signout.component';
+import { DiscountComponent } from './components/discount/discount.component';
+import { BookFormForAdminComponent } from './components/book-form-for-admin/book-form-for-admin.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +39,10 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     AccountComponent,
     SignupFormComponent,
     AdminComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    SignoutComponent,
+    DiscountComponent,
+    BookFormForAdminComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

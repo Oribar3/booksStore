@@ -1,0 +1,13 @@
+<div class="book">
+<div class="book-item">{{ book.id }}</div>
+<form [formGroup]="Form">
+    <button (click)="switchToEditMode()">edit</button>
+    <input class="book-item" type="text" value="{{ book.title }}" formControlName="title" >
+    <input class="book-item" type="text" value="{{ book.description }}" formControlName="description" >
+    <input class="book-item" type="text" value="{{ book.price }}" formControlName="price" >
+    <input class="book-item" type="text" value="{{ book.image }}" formControlName="image" >
+</form>
+<div class="book-item">
+    <button (click)="updateABook(book)">Update Book</button>
+</div>
+</div>

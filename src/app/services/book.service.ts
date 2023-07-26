@@ -9,10 +9,13 @@ import { Book } from '../models/book';
 })
 export class BookService implements OnInit {
   books!: Observable<Book[]>;
+  allBooks!:Book[];
   private basePath = 'https://localhost:7167/api/Books';
 
   ngOnInit() {
-
+    this.books.subscribe({
+      next:(res)=>{this.allBooks=res}
+    })
   }
 
   constructor(private http: HttpClient) {
